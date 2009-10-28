@@ -1,0 +1,2 @@
+content inspector chrome/content/inspector/ xpcnativewrappers=no
+overlay chrome://firebug/content/firebugOverlay.xul chrome://inspector/content/inspector.xul

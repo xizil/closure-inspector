@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="chrome://inspector/content/inspector.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/debugger.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/settings.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/layouts.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/helpers.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/sourcemap.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/hooks.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/module.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/reps.js" type="application/x-javascript"/>
+
+  <!-- Inline Helpers -->
+  <script src="chrome://inspector/content/jsunit.js" type="application/x-javascript"/>
+
+  <!-- START CLOSURE COMPILER DEBUGGER -->
+
+  <script src="chrome://inspector/content/ccd/debugger.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/ccd/panels.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/ccd/helpers.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/ccd/classes.js" type="application/x-javascript"/>
+
+  <!-- END CLOSURE COMPILER DEBUGGER -->
+
+  <!-- Caja debugger will be shipped in the second release. -->
+  <!-- START CAJA DEBUGGER -->
+
+<!--
+  <script src="chrome://inspector/content/cajadebugger.js" type="application/x-javascript"/>
+
+  <script src="chrome://inspector/content/cajad/debugger.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/cajad/panels.js" type="application/x-javascript"/>
+  <script src="chrome://inspector/content/cajad/classes.js" type="application/x-javascript"/>
+-->
+
+  <!-- END CAJA DEBUGGER -->
+
+  <!-- XUL UI changes -->
+  <toolbar id="fbToolbar" align="center">
+    <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center">
+
+      <!-- START CAJA DEBUGGER -->
+
+<!--
+      <hbox id="lbCajaSourceButtons" insertafter="fbNetButtons" collapsed="true">
+         <toolbarseparator/>
+
+         <toolbarbutton id="mnuSources" label="Original Source" type="menu" tooltiptext="Select Original Source File" disabled="true">
+                  <menupopup id="mpSources">
+                  </menupopup>
+         </toolbarbutton>
+
+         <toolbarseparator/>
+      </hbox>
+-->
+
+      <!-- END CAJA DEBUGGER -->
+
+     </hbox>
+  </toolbar>
+</overlay>

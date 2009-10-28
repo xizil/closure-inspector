@@ -1,0 +1,22 @@
+.sourceRow {
+    font-family: Monaco, monospace;
+}
+
+.sourceRowContinuation > .sourceLine {
+  border-right: 1px dotted #CCCCCC;
+}
+
+.sourceRow {
+  border-top: 1px dotted #CCCCCC;
+}
+
+.sourceRow > .sourceLine {
+  color: blue;
+  border-right: 1px solid #CCCCCC;
+}
+
+.sourceRow[assertIssue="true"] {
+  outline: 1px solid #D9D9B6;     
+  margin-right: 1px;
+  background-color: #d4a1a1;
+}
