@@ -142,8 +142,8 @@ FBL.ns(function() { with (FBL) {
    */
   clInspector.Helpers.displayFileInIDE = function(path, line) {
     if (!clInspector.Helpers.hasEnvVariable('EDITOR')) {
-      alert('You do not have an $EDITOR (%EDITOR on Windows) environment' +
-            ' variable defined');
+      alert('Original Source File: ' + path + '\n' +
+            'Line Number:' + line);
       return;
     }
 
@@ -189,7 +189,8 @@ FBL.ns(function() { with (FBL) {
     var editorPath = clInspector.Helpers.findBinary(editor);
 
     if (!editorPath) {
-      alert('Source file: ' + path + '\n Line Number: ' + line);
+      alert('Original Source File: ' + path + '\n' +
+            'Line Number:' + line);
       return;
     }
 
