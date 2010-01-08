@@ -389,6 +389,30 @@ FBL.ns(function() { with (FBL) {
     return arguments.callee.$__Previous.apply(this, arguments);
   });
 
+  // HOOK: FBL.getMembers ////////////////////////////////////////
+
+  // TODO(jschorr): Remove this once Firebug has fixed their getMembers
+  // method to be an expression.
+  if (false && FBL.getMembers) {
+    clInspector.Helpers.hookFunction(FBL, 'getMembers',
+        function(object, level) {
+
+      var members = arguments.callee.$__Previous.apply(this, arguments);
+
+      // Remove any ___ members from the list.
+      var filtered = [];
+      for (var i = 0; i < members.length; ++i) {
+        var member = members[i];
+        var name = member.name;
+
+        if (!name.lastIndexOf || name.lastIndexOf('___') != name.length - 3) {
+          filtered.push(member);
+        }
+      }
+
+      return filtered;
+    });
+  }
 
   ////////////////////////////////////////////////////////////////
   // "FireRainbow" Hooks

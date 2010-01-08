@@ -23,16 +23,13 @@
 
   <!-- END CLOSURE COMPILER DEBUGGER -->
 
-  <!-- Caja debugger will be shipped in the second release. -->
   <!-- START CAJA DEBUGGER -->
 
-<!--
   <script src="chrome://inspector/content/cajadebugger.js" type="application/x-javascript"/>
 
   <script src="chrome://inspector/content/cajad/debugger.js" type="application/x-javascript"/>
   <script src="chrome://inspector/content/cajad/panels.js" type="application/x-javascript"/>
   <script src="chrome://inspector/content/cajad/classes.js" type="application/x-javascript"/>
--->
 
   <!-- END CAJA DEBUGGER -->
 
@@ -42,7 +39,6 @@
 
       <!-- START CAJA DEBUGGER -->
 
-<!--
       <hbox id="lbCajaSourceButtons" insertafter="fbNetButtons" collapsed="true">
          <toolbarseparator/>
 
@@ -53,7 +49,6 @@
 
          <toolbarseparator/>
       </hbox>
--->
 
       <!-- END CAJA DEBUGGER -->
 

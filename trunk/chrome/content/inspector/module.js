@@ -37,11 +37,10 @@ FBL.ns(function() { with (FBL) {
        * @param {Object} context The context containing the window.
        */
       setupWindow: function(context) {
-        var url = context.window.location.href.toString();
+        // Only inject if the Firebug debugger is enabled.
+        var debuggerEnabled = Firebug.Debugger.isAlwaysEnabled();
 
-        // Disable injection except for local files and localhost.
-        // TODO(jschorr): Turn this into a real whitelist.
-        if (url.indexOf("file://") < 0 && url.indexOf("://localhost") < 0) {
+        if (!debuggerEnabled) {
           return;
         }
 
@@ -143,10 +142,6 @@ FBL.ns(function() { with (FBL) {
 
         // Setup hook for panel navigation.
         clInspector.Hooks.setupContextualHooks(context);
-      },
-
-      destroyContext: function(context) {
-        var url = context.window.location.href.toString();
       },
 
       /**
