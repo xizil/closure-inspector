@@ -90,7 +90,7 @@ FBL.ns(function() { with (FBL) {
   /////////////////////////////////////////////////////////////////////
 
   clInspector = {};
-  clInspector.supportedVersions = [1.4];
+  clInspector.supportedVersions = [1.5];
   clInspector.wrongVersion = true;
 
   var firebugVersion = Firebug.version;
