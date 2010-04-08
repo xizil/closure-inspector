@@ -29,79 +29,14 @@ FBL.ns(function() { with (FBL) {
 
     initialize: function() {
       Firebug.SourceBoxPanel.initialize.apply(this, arguments);
-
-      this.initializeSourceBoxes();
     },
 
     /** @inheritDoc */
-    getDecorator: function(sourceBox) {
-      if (!this.decorator)
-        this.decorator = bind(this.decorateCajita, this, sourceBox);
-      return this.decorator;
-    },
-
-    /**
-     * Decorator method called by the sourcebox when it refreshes. Used to
-     * ensure breakpoints are displayed.
-     */
-    decorateCajita: function(sourceBox) {
-      this.showBreakpoints(sourceBox);
-    },
-
-    /**
-     * Shows the breakpoints for all lines in the given source box.
-     */
-    showBreakpoints: function(sourceBox) {
-      var sourceFile = sourceBox.repObject;
-      var module = sourceFile.module;
-      var definingScript = module.getDefiningScriptURL();
-
-      // Remove all breakpoints.
-      for (var i = sourceBox.firstViewableLine;
-           i <= sourceBox.lastViewableLine; ++i) {
-        var lineNode = sourceBox.getLineNode(i);
-
-        if (lineNode) {
-          lineNode.setAttribute("breakpoint", "false");
-          lineNode.setAttribute("disabledBreakpoint", "false");
-          lineNode.setAttribute("condition", "false");
-        }
+    getDecorator: function() {
+      if (!this.decorator) {
+        this.decorator = new clInspector.CajaDebugger.Decorator();
       }
-
-      var callHandler = function(url, line, props, script) {
-        // Find the associated line in the original source.
-        var sourceMap =
-          module.getCajaContext().findSourceMapForScript(definingScript);
-        var mappings = sourceMap.getSourceMappingsForLine(line);
-
-        if (!mappings) {
-          return;
-        }
-
-        // For each of the mappings for the line, add a breakpoint
-        // if necessary.
-        for (var i = 0; i < mappings.length; ++i) {
-          var mapping = sourceMap.getSourceMapping(line, i + 1);
-
-          if (mapping) {
-            var originalLine = mapping[1];
-
-            var scriptRow = sourceBox.getLineNode(originalLine);
-            if (scriptRow) {
-              scriptRow.setAttribute("breakpoint", "true");
-              if (props && props.disabled)
-                scriptRow.setAttribute("disabledBreakpoint", "true");
-              if (props && props.condition)
-                scriptRow.setAttribute("condition", "true");
-            }
-          }
-        }
-      };
-
-      // Add the breakpoints that exist.
-      fbs.enumerateBreakpoints(definingScript, {
-        call: callHandler
-      });
+      return this.decorator;
     },
 
     getScriptFileByHref: function(url) {
@@ -138,7 +73,7 @@ FBL.ns(function() { with (FBL) {
       }
 
       // Refresh the decorator.
-      this.showBreakpoints(this.selectedSourceBox);
+      this.decorator.showBreakpoints(this.selectedSourceBox);
     },
 
     /** @inheritDoc */
@@ -224,6 +159,73 @@ FBL.ns(function() { with (FBL) {
     destroyNode: function() {
       this.panelNode.removeEventListener("mousedown", this.onMouseDownHandler,
                                          true);
+    }
+  });
+
+  clInspector.CajaDebugger.Decorator = function() {};
+  clInspector.CajaDebugger.Decorator.prototype =
+      extend(Firebug.SourceBoxDecorator.prototype, {
+
+    // --------------------------------------------------
+    // extends SourceBoxDecorator
+    decorate: function(sourceBox, sourceFile) {
+      this.showBreakpoints(sourceBox);
+    },
+
+    /**
+     * Shows the breakpoints for all lines in the given source box.
+     */
+    showBreakpoints: function(sourceBox) {
+      var sourceFile = sourceBox.repObject;
+      var module = sourceFile.module;
+      var definingScript = module.getDefiningScriptURL();
+
+      // Remove all breakpoints.
+      for (var i = sourceBox.firstViewableLine;
+           i <= sourceBox.lastViewableLine; ++i) {
+        var lineNode = sourceBox.getLineNode(i);
+
+        if (lineNode) {
+          lineNode.setAttribute("breakpoint", "false");
+          lineNode.setAttribute("disabledBreakpoint", "false");
+          lineNode.setAttribute("condition", "false");
+        }
+      }
+
+      var callHandler = function(url, line, props, script) {
+        // Find the associated line in the original source.
+        var sourceMap =
+          module.getCajaContext().findSourceMapForScript(definingScript);
+        var mappings = sourceMap.getSourceMappingsForLine(line);
+
+        if (!mappings) {
+          return;
+        }
+
+        // For each of the mappings for the line, add a breakpoint
+        // if necessary.
+        for (var i = 0; i < mappings.length; ++i) {
+          var mapping = sourceMap.getSourceMapping(line, i + 1);
+
+          if (mapping) {
+            var originalLine = mapping[1];
+
+            var scriptRow = sourceBox.getLineNode(originalLine);
+            if (scriptRow) {
+              scriptRow.setAttribute("breakpoint", "true");
+              if (props && props.disabled)
+                scriptRow.setAttribute("disabledBreakpoint", "true");
+              if (props && props.condition)
+                scriptRow.setAttribute("condition", "true");
+            }
+          }
+        }
+      };
+
+      // Add the breakpoints that exist.
+      fbs.enumerateBreakpoints(definingScript, {
+        call: callHandler
+      });
     }
   });
 

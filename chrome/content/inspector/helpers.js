@@ -271,8 +271,9 @@ FBL.ns(function() { with (FBL) {
 
     var sourceHref = null;
     var sourceLine = null;
+    var sourceFile =
+        Firebug.SourceFile.getSourceFileByScript(context, frame.script);
 
-    var sourceFile = FBL.getSourceFileByScript(context, frame.script);
     if (!sourceFile) {
       return null;
     }
